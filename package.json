@@ -144,5 +144,8 @@
   "lint-staged": {
     "/**/*.{ts}": ["prettier --write", "eslint --fix", "git add"],
     "*": ["prettier --write", "git add"]
+  },
+  "engines": {
+    "node": ">=16"
   }
 }
