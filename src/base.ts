@@ -863,7 +863,7 @@ export default class SHDate {
 	 * @param  {number} millisecond millisecond in time (start: 0) (default: 0)
 	 * @return {number[]} [hours, minute, second, millisecond, doy]
 	 */
-	timeCorrection(
+	public static timeCorrection(
 		hours: number,
 		minute: number,
 		second: number,
@@ -884,6 +884,23 @@ export default class SHDate {
 		doy = Math.trunc(time / 86400000);
 		return [hours, minute, second, millisecond, doy];
 	}
+	/**
+	 * time correction
+	 *
+	 * @param  {number} hours hours in time (start: 0)
+	 * @param  {number} minute minute in time (start: 0)
+	 * @param  {number} second second in time (start: 0)
+	 * @param  {number} millisecond millisecond in time (start: 0) (default: 0)
+	 * @return {number[]} [hours, minute, second, millisecond, doy]
+	 */
+	public timeCorrection(
+		hours: number,
+		minute: number,
+		second: number,
+		millisecond: number = 0
+	): number[] {
+		return SHDate.timeCorrection(hours, minute, second, millisecond);
+	}
 
 	/**
 	 * date correction
@@ -893,7 +910,7 @@ export default class SHDate {
 	 * @param  {number} day day of the date (start: 0) (default: 1)
 	 * @return {number[]} [ year, month, date ]
 	 */
-	dateCorrection(year: number, month: number = 0, day: number = 1): number[] {
+	public dateCorrection(year: number, month: number = 0, day: number = 1): number[] {
 		month++;
 		if (month < 1)
 			do {
@@ -909,6 +926,21 @@ export default class SHDate {
 		const doy = this.#dayOfYear(month, day);
 		return this.#dateOfDayOfYear(year, doy);
 	}
+	/**
+	 * date correction
+	 *
+	 * @param  {number} year Year of the date (start: 1)
+	 * @param  {number} month month of the date (start: 0) (default: 0)
+	 * @param  {number} day day of the date (start: 0) (default: 1)
+	 * @return {number[]} [ year, month, date ]
+	 */
+	public static dateCorrection(
+		year: number,
+		month: number = 0,
+		day: number = 1
+	): number[] {
+		return new SHDate().dateCorrection(year, month, day);
+	}
 
 	/**
 	 * week correction
@@ -918,11 +950,22 @@ export default class SHDate {
 	 * @param  {number} day Day of the date (start: 0) (default: 0)
 	 * @return {number[]} [iso year, iso week, day of week]
 	 */
-	weekCorrection(year: number, week: number, day: number = 0): number[] {
+	public weekCorrection(year: number, week: number, day: number = 0): number[] {
 		const [y4, month, date] = this.#weekOfDay(year, week, day);
 		const [iy, iw] = this.#weekOfYear(y4, month, date);
 		const dow = this.#dayOfWeek(y4, month, date);
 		return [iy, iw, dow];
+	}
+	/**
+	 * date correction
+	 *
+	 * @param  {number} year Year of the date (start: 1)
+	 * @param  {number} month month of the date (start: 0) (default: 0)
+	 * @param  {number} day day of the date (start: 0) (default: 1)
+	 * @return {number[]} [ year, month, date ]
+	 */
+	public static weekCorrection(year: number, week: number, day: number = 0): number[] {
+		return new SHDate().weekCorrection(year, week, day);
 	}
 
 	/**
