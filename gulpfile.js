@@ -84,6 +84,24 @@ function replaceDocBlockInfo() {
 		.pipe(gulp.dest("src/"));
 }
 
+function bumpVersion() {
+	return gulp
+		.src(["src/**/*.ts"])
+		.pipe(
+			replace(
+				/\* @(version( [\w\d:\/\.\-]+)+)/gm,
+				`* @version Release: ${pkg.version}`
+			)
+		)
+		.pipe(
+			replace(
+				/VERSION: string = "([\w\d:\/\.\-]+)"/gm,
+				`VERSION: string = "${pkg.version}"`
+			)
+		)
+		.pipe(gulp.dest("src/"));
+}
+
 function cleanCompile(cb) {
 	return del(["dist", "src/browser"], cb);
 }
@@ -184,7 +202,8 @@ exports.default = gulp.task(
 		compressBrowserJS,
 		makeBrowserTypes,
 		cleanBrowserTS,
-		replaceDocBlockInfo
+		replaceDocBlockInfo,
+		bumpVersion
 	)
 );
 
